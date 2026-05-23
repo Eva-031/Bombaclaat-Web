@@ -301,7 +301,7 @@ body {
 }
 
 .solid-wall {
-    background-image: url('assets/stone_wall remove.png');
+    background-image: url('assets/stone_wall_remove.png');
     background-size: cover;
     z-index: 5;
 }
