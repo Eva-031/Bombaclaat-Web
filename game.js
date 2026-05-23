@@ -75,14 +75,14 @@ function updateCharSelectUI() {
 
 // Player Selector Logic
 btnMinus.addEventListener('click', () => {
-    if (totalPlayers > 2) {
+    if (totalPlayers > minPlayers) {
         totalPlayers--;
         displayCount.innerText = totalPlayers;
         updateCharSelectUI();
     }
 });
 btnPlus.addEventListener('click', () => {
-    if (totalPlayers < 6) {
+    if (totalPlayers < maxPlayers) {
         totalPlayers++;
         displayCount.innerText = totalPlayers;
         updateCharSelectUI();
