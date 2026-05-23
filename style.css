@@ -51,11 +51,19 @@ body {
     text-align: center;
 }
 
-.title-text {
-    font-size: 4rem;
-    color: #f1c40f;
-    text-shadow: 4px 4px 0 #e74c3c, -4px -4px 0 #3498db;
-    margin-bottom: 10px;
+.main-logo {
+    max-width: 600px;
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255,255,255,0.2);
+}
+
+.ingame-logo {
+    max-width: 400px;
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: 5px;
 }
 
 .manual-content {
