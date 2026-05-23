@@ -128,10 +128,9 @@ body {
 }
 
 .ingame-logo {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    max-width: 150px;
+    display: block;
+    margin: 0 auto 20px auto;
+    max-width: 200px;
     width: 100%;
     border-radius: 5px;
 }
