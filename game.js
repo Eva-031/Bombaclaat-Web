@@ -1,6 +1,6 @@
 // Game Constants and Configurations
-const WIDTH = 9;
-const HEIGHT = 9;
+const WIDTH = 15;
+const HEIGHT = 15;
 const CELL_SIZE = 50; // px
 const BOMB_LIFESPAN = 2; // turns
 
@@ -74,11 +74,11 @@ function initGame() {
                 // Protect spawn areas for up to 6 players
                 const safeZones = [
                     [0,0], [1,0], [0,1], [1,1], // top left
-                    [8,8], [7,8], [8,7], [7,7], // bottom right
-                    [0,8], [1,8], [0,7], [1,7], // bottom left
-                    [8,0], [7,0], [8,1], [7,1], // top right
-                    [4,0], [3,0], [5,0], [4,1], // top mid
-                    [4,8], [3,8], [5,8], [4,7]  // bottom mid
+                    [14,14], [13,14], [14,13], [13,13], // bottom right
+                    [0,14], [1,14], [0,13], [1,13], // bottom left
+                    [14,0], [13,0], [14,1], [13,1], // top right
+                    [7,0], [6,0], [8,0], [7,1], // top mid
+                    [7,14], [6,14], [8,14], [7,13]  // bottom mid
                 ];
                 let isSafe = false;
                 safeZones.forEach(coord => {
@@ -94,11 +94,11 @@ function initGame() {
     // Initialize Players
     const allPossiblePlayers = [
         { id: 1, name: 'Player 1', x: 0, y: 0, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p1' },
-        { id: 2, name: 'Player 2', x: 8, y: 8, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p2' },
-        { id: 3, name: 'Player 3', x: 0, y: 8, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p3' },
-        { id: 4, name: 'Player 4', x: 8, y: 0, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p4' },
-        { id: 5, name: 'Player 5', x: 4, y: 0, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p5' },
-        { id: 6, name: 'Player 6', x: 4, y: 8, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p6' }
+        { id: 2, name: 'Player 2', x: 14, y: 14, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p2' },
+        { id: 3, name: 'Player 3', x: 0, y: 14, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p3' },
+        { id: 4, name: 'Player 4', x: 14, y: 0, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p4' },
+        { id: 5, name: 'Player 5', x: 7, y: 0, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p5' },
+        { id: 6, name: 'Player 6', x: 7, y: 14, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p6' }
     ];
 
     players = allPossiblePlayers.slice(0, totalPlayers);
