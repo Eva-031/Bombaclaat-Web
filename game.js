@@ -14,7 +14,12 @@ const gameOverModal = document.getElementById('game-over-modal');
 const winnerText = document.getElementById('winner-text');
 const restartBtn = document.getElementById('restart-btn');
 
+const btnMinus = document.getElementById('minus-player-btn');
+const btnPlus = document.getElementById('plus-player-btn');
+const displayCount = document.getElementById('player-count-display');
+
 // Game State
+let totalPlayers = 2;
 let board = [];
 let players = [];
 let bombs = [];
@@ -23,6 +28,20 @@ let currentPlayerIndex = 0;
 let currentAP = 2;
 let bombPlacedThisTurn = false;
 let gameOver = false;
+
+// Player Selector Logic
+btnMinus.addEventListener('click', () => {
+    if (totalPlayers > 2) {
+        totalPlayers--;
+        displayCount.innerText = totalPlayers;
+    }
+});
+btnPlus.addEventListener('click', () => {
+    if (totalPlayers < 6) {
+        totalPlayers++;
+        displayCount.innerText = totalPlayers;
+    }
+});
 
 // Audio (Optional) - using console log for now
 function logAction(msg) {
@@ -52,18 +71,47 @@ function initGame() {
     for (let y = 0; y < HEIGHT; y++) {
         for (let x = 0; x < WIDTH; x++) {
             if (board[y][x] === null && Math.random() < 0.35) {
-                // Protect spawn areas
-                if ((x <= 1 && y <= 1) || (x >= WIDTH - 2 && y >= HEIGHT - 2)) continue;
+                // Protect spawn areas for up to 6 players
+                const safeZones = [
+                    [0,0], [1,0], [0,1], [1,1], // top left
+                    [8,8], [7,8], [8,7], [7,7], // bottom right
+                    [0,8], [1,8], [0,7], [1,7], // bottom left
+                    [8,0], [7,0], [8,1], [7,1], // top right
+                    [4,0], [3,0], [5,0], [4,1], // top mid
+                    [4,8], [3,8], [5,8], [4,7]  // bottom mid
+                ];
+                let isSafe = false;
+                safeZones.forEach(coord => {
+                    if (x === coord[0] && y === coord[1]) isSafe = true;
+                });
+                if (isSafe) continue;
+                
                 board[y][x] = { type: 'breakable' };
             }
         }
     }
 
     // Initialize Players
-    players = [
+    const allPossiblePlayers = [
         { id: 1, name: 'Player 1', x: 0, y: 0, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p1' },
-        { id: 2, name: 'Player 2', x: 8, y: 8, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p2' }
+        { id: 2, name: 'Player 2', x: 8, y: 8, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p2' },
+        { id: 3, name: 'Player 3', x: 0, y: 8, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p3' },
+        { id: 4, name: 'Player 4', x: 8, y: 0, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p4' },
+        { id: 5, name: 'Player 5', x: 4, y: 0, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p5' },
+        { id: 6, name: 'Player 6', x: 4, y: 8, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p6' }
     ];
+
+    players = allPossiblePlayers.slice(0, totalPlayers);
+
+    // Show/Hide UI Panels
+    for (let i = 1; i <= 6; i++) {
+        const panel = document.getElementById(`panel-p${i}`);
+        if (i <= totalPlayers) {
+            panel.classList.remove('hidden');
+        } else {
+            panel.classList.add('hidden');
+        }
+    }
 
     currentPlayerIndex = 0;
     currentAP = players[currentPlayerIndex].maxAP;
@@ -140,31 +188,22 @@ function renderBoard() {
 }
 
 function updateUI() {
-    // Player 1 UI
-    document.getElementById('p1-hp').innerText = `HP: ${'❤️'.repeat(players[0].hp)}${'🖤'.repeat(2 - players[0].hp)}`;
-    document.getElementById('p1-ap').innerText = currentPlayerIndex === 0 ? currentAP : 0;
-    document.getElementById('p1-maxap').innerText = players[0].maxAP;
-    document.getElementById('p1-fire').innerText = players[0].fireRange;
-    document.getElementById('p1-bombs').innerText = players[0].bombsActive;
-    document.getElementById('p1-maxbombs').innerText = players[0].maxBombs;
-    document.getElementById('p1-speed').innerText = players[0].maxAP;
+    for (let i = 0; i < totalPlayers; i++) {
+        let pIndex = i + 1; // 1-indexed for HTML IDs
+        document.getElementById(`p${pIndex}-hp`).innerText = `HP: ${'❤️'.repeat(players[i].hp)}${'🖤'.repeat(2 - players[i].hp)}`;
+        document.getElementById(`p${pIndex}-ap`).innerText = currentPlayerIndex === i ? currentAP : 0;
+        document.getElementById(`p${pIndex}-maxap`).innerText = players[i].maxAP;
+        document.getElementById(`p${pIndex}-fire`).innerText = players[i].fireRange;
+        document.getElementById(`p${pIndex}-bombs`).innerText = players[i].bombsActive;
+        document.getElementById(`p${pIndex}-maxbombs`).innerText = players[i].maxBombs;
+        document.getElementById(`p${pIndex}-speed`).innerText = players[i].maxAP;
 
-    // Player 2 UI
-    document.getElementById('p2-hp').innerText = `HP: ${'❤️'.repeat(players[1].hp)}${'🖤'.repeat(2 - players[1].hp)}`;
-    document.getElementById('p2-ap').innerText = currentPlayerIndex === 1 ? currentAP : 0;
-    document.getElementById('p2-maxap').innerText = players[1].maxAP;
-    document.getElementById('p2-fire').innerText = players[1].fireRange;
-    document.getElementById('p2-bombs').innerText = players[1].bombsActive;
-    document.getElementById('p2-maxbombs').innerText = players[1].maxBombs;
-    document.getElementById('p2-speed').innerText = players[1].maxAP;
-
-    // Turn Indicators
-    if (currentPlayerIndex === 0) {
-        document.getElementById('p1-turn-indicator').classList.remove('hidden');
-        document.getElementById('p2-turn-indicator').classList.add('hidden');
-    } else {
-        document.getElementById('p1-turn-indicator').classList.add('hidden');
-        document.getElementById('p2-turn-indicator').classList.remove('hidden');
+        const turnIndicator = document.getElementById(`p${pIndex}-turn-indicator`);
+        if (currentPlayerIndex === i) {
+            turnIndicator.classList.remove('hidden');
+        } else {
+            turnIndicator.classList.add('hidden');
+        }
     }
 }
 
@@ -185,15 +224,13 @@ function endTurn() {
 
     if (checkGameOver()) return;
 
-    currentPlayerIndex = (currentPlayerIndex + 1) % 2;
+    // Move to next alive player
+    do {
+        currentPlayerIndex = (currentPlayerIndex + 1) % totalPlayers;
+    } while (players[currentPlayerIndex].hp <= 0);
+
     currentAP = players[currentPlayerIndex].maxAP;
     bombPlacedThisTurn = false;
-
-    // If next player is dead, end their turn immediately (though checkGameOver should handle this)
-    if (players[currentPlayerIndex].hp <= 0) {
-        endTurn();
-        return;
-    }
 
     updateUI();
     renderBoard();
@@ -303,7 +340,7 @@ function checkGameOver() {
     let alive = players.filter(p => p.hp > 0);
     if (alive.length === 0) {
         gameOver = true;
-        winnerText.innerText = "DRAW! BOTH DIED.";
+        winnerText.innerText = "DRAW! EVERYBODY DIED.";
         gameOverModal.classList.remove('hidden');
         return true;
     } else if (alive.length === 1) {
@@ -409,22 +446,39 @@ function flashButton(btnId) {
 
 // Keyboard Mapping
 const keyMap = {
+    // P1
     'w': { p: 0, act: 'up', btn: 'btn-p1-w' },
     's': { p: 0, act: 'down', btn: 'btn-p1-s' },
     'a': { p: 0, act: 'left', btn: 'btn-p1-a' },
     'd': { p: 0, act: 'right', btn: 'btn-p1-d' },
     'b': { p: 0, act: 'bomb', btn: 'btn-p1-b' },
     'v': { p: 0, act: 'skip', btn: 'btn-p1-v' },
+    // P2
     'ArrowUp': { p: 1, act: 'up', btn: 'btn-p2-up' },
     'ArrowDown': { p: 1, act: 'down', btn: 'btn-p2-down' },
     'ArrowLeft': { p: 1, act: 'left', btn: 'btn-p2-left' },
     'ArrowRight': { p: 1, act: 'right', btn: 'btn-p2-right' },
     'Enter': { p: 1, act: 'bomb', btn: 'btn-p2-enter' },
-    'Shift': { p: 1, act: 'skip', btn: 'btn-p2-shift' }
+    'Shift': { p: 1, act: 'skip', btn: 'btn-p2-shift' },
+    // P3
+    'i': { p: 2, act: 'up', btn: 'btn-p3-up' },
+    'k': { p: 2, act: 'down', btn: 'btn-p3-down' },
+    'j': { p: 2, act: 'left', btn: 'btn-p3-left' },
+    'l': { p: 2, act: 'right', btn: 'btn-p3-right' },
+    'm': { p: 2, act: 'bomb', btn: 'btn-p3-bomb' },
+    'n': { p: 2, act: 'skip', btn: 'btn-p3-skip' },
+    // P4
+    't': { p: 3, act: 'up', btn: 'btn-p4-up' },
+    'g': { p: 3, act: 'down', btn: 'btn-p4-down' },
+    'f': { p: 3, act: 'left', btn: 'btn-p4-left' },
+    'h': { p: 3, act: 'right', btn: 'btn-p4-right' },
+    'y': { p: 3, act: 'bomb', btn: 'btn-p4-bomb' },
+    'u': { p: 3, act: 'skip', btn: 'btn-p4-skip' }
 };
 
 window.addEventListener('keydown', (e) => {
-    // Prevent default scrolling for arrows and space
+    if(!gameOverModal.classList.contains('hidden') || manualScreen.classList.contains('active')) return;
+
     if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"," "].indexOf(e.code) > -1) {
         e.preventDefault();
     }
@@ -434,25 +488,40 @@ window.addEventListener('keydown', (e) => {
     
     if (keyMap[lowerKey] || keyMap[key]) {
         const mapping = keyMap[lowerKey] || keyMap[key];
-        flashButton(mapping.btn);
-        handleInput(mapping.p, mapping.act);
+        // Ensure player is active
+        if (mapping.p < totalPlayers) {
+            flashButton(mapping.btn);
+            handleInput(mapping.p, mapping.act);
+        }
     }
 });
 
 // UI Button Clicks
 const btnMap = {
-    'btn-p1-w': { p: 0, act: 'up' },
-    'btn-p1-s': { p: 0, act: 'down' },
-    'btn-p1-a': { p: 0, act: 'left' },
-    'btn-p1-d': { p: 0, act: 'right' },
-    'btn-p1-b': { p: 0, act: 'bomb' },
-    'btn-p1-v': { p: 0, act: 'skip' },
-    'btn-p2-up': { p: 1, act: 'up' },
-    'btn-p2-down': { p: 1, act: 'down' },
-    'btn-p2-left': { p: 1, act: 'left' },
-    'btn-p2-right': { p: 1, act: 'right' },
-    'btn-p2-enter': { p: 1, act: 'bomb' },
-    'btn-p2-shift': { p: 1, act: 'skip' }
+    // P1
+    'btn-p1-w': { p: 0, act: 'up' }, 'btn-p1-s': { p: 0, act: 'down' },
+    'btn-p1-a': { p: 0, act: 'left' }, 'btn-p1-d': { p: 0, act: 'right' },
+    'btn-p1-b': { p: 0, act: 'bomb' }, 'btn-p1-v': { p: 0, act: 'skip' },
+    // P2
+    'btn-p2-up': { p: 1, act: 'up' }, 'btn-p2-down': { p: 1, act: 'down' },
+    'btn-p2-left': { p: 1, act: 'left' }, 'btn-p2-right': { p: 1, act: 'right' },
+    'btn-p2-enter': { p: 1, act: 'bomb' }, 'btn-p2-shift': { p: 1, act: 'skip' },
+    // P3
+    'btn-p3-up': { p: 2, act: 'up' }, 'btn-p3-down': { p: 2, act: 'down' },
+    'btn-p3-left': { p: 2, act: 'left' }, 'btn-p3-right': { p: 2, act: 'right' },
+    'btn-p3-bomb': { p: 2, act: 'bomb' }, 'btn-p3-skip': { p: 2, act: 'skip' },
+    // P4
+    'btn-p4-up': { p: 3, act: 'up' }, 'btn-p4-down': { p: 3, act: 'down' },
+    'btn-p4-left': { p: 3, act: 'left' }, 'btn-p4-right': { p: 3, act: 'right' },
+    'btn-p4-bomb': { p: 3, act: 'bomb' }, 'btn-p4-skip': { p: 3, act: 'skip' },
+    // P5
+    'btn-p5-up': { p: 4, act: 'up' }, 'btn-p5-down': { p: 4, act: 'down' },
+    'btn-p5-left': { p: 4, act: 'left' }, 'btn-p5-right': { p: 4, act: 'right' },
+    'btn-p5-bomb': { p: 4, act: 'bomb' }, 'btn-p5-skip': { p: 4, act: 'skip' },
+    // P6
+    'btn-p6-up': { p: 5, act: 'up' }, 'btn-p6-down': { p: 5, act: 'down' },
+    'btn-p6-left': { p: 5, act: 'left' }, 'btn-p6-right': { p: 5, act: 'right' },
+    'btn-p6-bomb': { p: 5, act: 'bomb' }, 'btn-p6-skip': { p: 5, act: 'skip' }
 };
 
 Object.keys(btnMap).forEach(btnId => {
@@ -460,22 +529,26 @@ Object.keys(btnMap).forEach(btnId => {
     if (btn) {
         // Handle click
         btn.addEventListener('click', () => {
-            flashButton(btnId);
-            handleInput(btnMap[btnId].p, btnMap[btnId].act);
+            // Only allow input if player is active
+            if (btnMap[btnId].p < totalPlayers) {
+                flashButton(btnId);
+                handleInput(btnMap[btnId].p, btnMap[btnId].act);
+            }
         });
         
         // Handle touch for mobile
         btn.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // prevent double firing with click
-            flashButton(btnId);
-            handleInput(btnMap[btnId].p, btnMap[btnId].act);
+            e.preventDefault(); 
+            if (btnMap[btnId].p < totalPlayers) {
+                flashButton(btnId);
+                handleInput(btnMap[btnId].p, btnMap[btnId].act);
+            }
         });
     }
 });
 
 startBtn.addEventListener('click', () => {
     initGame();
-    // Auto-focus window to ensure keypresses work
     window.focus();
 });
 restartBtn.addEventListener('click', () => {
