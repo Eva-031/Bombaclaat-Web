@@ -315,10 +315,12 @@ body {
 .player {
     z-index: 20;
     border-radius: 50%;
-    transform: scale(1.2); /* Make character bigger */
-    transform-origin: bottom center; /* Scale from bottom to avoid clipping upwards too much */
+    transform: scale(0.8);
     width: 100%;
     height: 100%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
     box-shadow: none; /* Removed box-shadow as we are using sprites now */
 }
 
