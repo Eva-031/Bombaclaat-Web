@@ -275,10 +275,13 @@ body {
     display: grid;
     grid-template-columns: repeat(9, var(--grid-size));
     grid-template-rows: repeat(9, var(--grid-size));
+    width: calc(9 * var(--grid-size));
+    height: calc(9 * var(--grid-size));
     background-image: url('assets/grass_tile.png');
     background-size: var(--grid-size) var(--grid-size);
     background-repeat: repeat;
     position: relative;
+    margin: 0 auto; /* Center the board inside the wrapper */
 }
 
 .cell {
