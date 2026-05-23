@@ -12,42 +12,48 @@
 
     <!-- Manual / Title Screen -->
     <div id="manual-screen" class="screen active">
-        <img src="assets/logo.jpg" alt="Bombaclaat Logo" class="main-logo">
-        <div class="manual-content">
-            <h3>📖 MANUAL & RULES</h3>
-            <p><strong>Goal:</strong> Be the last player standing!</p>
-            <p><strong>Turn System:</strong> Each player has 2 Action Points (AP) per turn.</p>
-            <ul>
-                <li>🏃 Move 1 tile = 1 AP</li>
-                <li>💣 Place Bomb = 0 AP (Max 1 per turn)</li>
-                <li>⏭️ End Turn early = 1 AP</li>
-            </ul>
-            <p><strong>Bombs & Explosions:</strong></p>
-            <ul>
-                <li>Bombs tick down for 2 turns and explode at the start of the 3rd turn.</li>
-                <li>Explosion shape: Cross (+) with radius of 2.</li>
-                <li>Center of explosion = Instant Kill!</li>
-                <li>Edge of explosion = -1 HP.</li>
-            </ul>
-            <p><strong>Items (Drop from Breakable Walls):</strong></p>
-            <ul>
-                <li>🧨 <strong>Fire Up:</strong> Bomb radius +1</li>
-                <li>💣 <strong>Bomb Up:</strong> Max bombs on board +1</li>
-                <li>👟 <strong>Speed Up:</strong> Permanent +1 AP per turn</li>
-            </ul>
-            <p><strong>Controls:</strong></p>
-            <div class="controls-grid">
-                <div>
-                    <h4>Player 1 (Red)</h4>
-                    <p>Move: W, A, S, D</p>
-                    <p>Bomb: B</p>
-                    <p>Skip: V</p>
-                </div>
-                <div>
-                    <h4>Player 2 (Blue)</h4>
-                    <p>Move: Arrow Keys</p>
-                    <p>Bomb: Enter</p>
-                    <p>Skip: Shift</p>
+        <div class="manual-layout">
+            <div class="manual-left">
+                <img src="assets/logo.jpg" alt="Bombaclaat Logo" class="main-logo">
+            </div>
+            <div class="manual-right">
+                <div class="manual-content">
+                    <h3>📖 MANUAL & RULES</h3>
+                    <p><strong>Goal:</strong> Be the last player standing!</p>
+                    <p><strong>Turn System:</strong> Each player has 2 Action Points (AP) per turn.</p>
+                    <ul>
+                        <li>🏃 Move 1 tile = 1 AP</li>
+                        <li>💣 Place Bomb = 0 AP (Max 1 per turn)</li>
+                        <li>⏭️ End Turn early = 1 AP</li>
+                    </ul>
+                    <p><strong>Bombs & Explosions:</strong></p>
+                    <ul>
+                        <li>Bombs tick down for 2 turns and explode at the start of the 3rd turn.</li>
+                        <li>Explosion shape: Cross (+) with radius of 2.</li>
+                        <li>Center of explosion = Instant Kill!</li>
+                        <li>Edge of explosion = -1 HP.</li>
+                    </ul>
+                    <p><strong>Items (Drop from Breakable Walls):</strong></p>
+                    <ul>
+                        <li>🧨 <strong>Fire Up:</strong> Bomb radius +1</li>
+                        <li>💣 <strong>Bomb Up:</strong> Max bombs on board +1</li>
+                        <li>👟 <strong>Speed Up:</strong> Permanent +1 AP per turn</li>
+                    </ul>
+                    <p><strong>Controls:</strong></p>
+                    <div class="controls-grid">
+                        <div>
+                            <h4>Player 1 (Red)</h4>
+                            <p>Move: W, A, S, D</p>
+                            <p>Bomb: B</p>
+                            <p>Skip: V</p>
+                        </div>
+                        <div>
+                            <h4>Player 2 (Blue)</h4>
+                            <p>Move: Arrow Keys</p>
+                            <p>Bomb: Enter</p>
+                            <p>Skip: Shift</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

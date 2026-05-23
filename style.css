@@ -51,10 +51,30 @@ body {
     text-align: center;
 }
 
-.main-logo {
-    max-width: 600px;
-    width: 100%;
+.manual-layout {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    max-width: 1200px;
     margin-bottom: 20px;
+    padding: 0 20px;
+}
+
+.manual-left {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.manual-right {
+    flex: 1;
+}
+
+.main-logo {
+    max-width: 400px;
+    width: 100%;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(255,255,255,0.2);
 }
@@ -70,11 +90,9 @@ body {
     background-color: rgba(255, 255, 255, 0.1);
     border: 4px solid #fff;
     padding: 20px;
-    max-width: 800px;
     text-align: left;
     font-size: 0.7rem;
     line-height: 1.8;
-    margin-bottom: 20px;
 }
 
 .manual-content h3 {
