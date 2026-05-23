@@ -151,12 +151,14 @@ function initGame() {
     players = allPossiblePlayers.slice(0, totalPlayers);
 
     // Show/Hide UI Panels
-    for (let i = 1; i <= 6; i++) {
+    for (let i = 1; i <= maxPlayers; i++) {
         const panel = document.getElementById(`panel-p${i}`);
-        if (i <= totalPlayers) {
-            panel.classList.remove('hidden');
-        } else {
-            panel.classList.add('hidden');
+        if (panel) {
+            if (i <= totalPlayers) {
+                panel.classList.remove('hidden');
+            } else {
+                panel.classList.add('hidden');
+            }
         }
     }
 
