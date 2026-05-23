@@ -388,26 +388,97 @@ function placeBomb() {
 }
 
 // Input Handling
-window.addEventListener('keydown', (e) => {
-    if (gameOver) return;
-    let p = players[currentPlayerIndex];
+function handleInput(playerIdx, action) {
+    if (gameOver || currentPlayerIndex !== playerIdx) return;
     
-    if (p.id === 1) { // Player 1
-        if (e.key === 'w' || e.key === 'W') movePlayer(0, -1);
-        if (e.key === 's' || e.key === 'S') movePlayer(0, 1);
-        if (e.key === 'a' || e.key === 'A') movePlayer(-1, 0);
-        if (e.key === 'd' || e.key === 'D') movePlayer(1, 0);
-        if (e.key === 'b' || e.key === 'B') placeBomb();
-        if (e.key === 'v' || e.key === 'V') { currentAP = 0; endTurn(); }
-    } else if (p.id === 2) { // Player 2
-        if (e.key === 'ArrowUp') movePlayer(0, -1);
-        if (e.key === 'ArrowDown') movePlayer(0, 1);
-        if (e.key === 'ArrowLeft') movePlayer(-1, 0);
-        if (e.key === 'ArrowRight') movePlayer(1, 0);
-        if (e.key === 'Enter') placeBomb();
-        if (e.key === 'Shift') { currentAP = 0; endTurn(); }
+    if (action === 'up') movePlayer(0, -1);
+    else if (action === 'down') movePlayer(0, 1);
+    else if (action === 'left') movePlayer(-1, 0);
+    else if (action === 'right') movePlayer(1, 0);
+    else if (action === 'bomb') placeBomb();
+    else if (action === 'skip') { currentAP = 0; endTurn(); }
+}
+
+function flashButton(btnId) {
+    const btn = document.getElementById(btnId);
+    if (btn) {
+        btn.classList.add('active');
+        setTimeout(() => btn.classList.remove('active'), 150);
+    }
+}
+
+// Keyboard Mapping
+const keyMap = {
+    'w': { p: 0, act: 'up', btn: 'btn-p1-w' },
+    's': { p: 0, act: 'down', btn: 'btn-p1-s' },
+    'a': { p: 0, act: 'left', btn: 'btn-p1-a' },
+    'd': { p: 0, act: 'right', btn: 'btn-p1-d' },
+    'b': { p: 0, act: 'bomb', btn: 'btn-p1-b' },
+    'v': { p: 0, act: 'skip', btn: 'btn-p1-v' },
+    'ArrowUp': { p: 1, act: 'up', btn: 'btn-p2-up' },
+    'ArrowDown': { p: 1, act: 'down', btn: 'btn-p2-down' },
+    'ArrowLeft': { p: 1, act: 'left', btn: 'btn-p2-left' },
+    'ArrowRight': { p: 1, act: 'right', btn: 'btn-p2-right' },
+    'Enter': { p: 1, act: 'bomb', btn: 'btn-p2-enter' },
+    'Shift': { p: 1, act: 'skip', btn: 'btn-p2-shift' }
+};
+
+window.addEventListener('keydown', (e) => {
+    // Prevent default scrolling for arrows and space
+    if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"," "].indexOf(e.code) > -1) {
+        e.preventDefault();
+    }
+
+    const key = e.key;
+    const lowerKey = key.length === 1 ? key.toLowerCase() : key;
+    
+    if (keyMap[lowerKey] || keyMap[key]) {
+        const mapping = keyMap[lowerKey] || keyMap[key];
+        flashButton(mapping.btn);
+        handleInput(mapping.p, mapping.act);
     }
 });
 
-startBtn.addEventListener('click', initGame);
-restartBtn.addEventListener('click', initGame);
+// UI Button Clicks
+const btnMap = {
+    'btn-p1-w': { p: 0, act: 'up' },
+    'btn-p1-s': { p: 0, act: 'down' },
+    'btn-p1-a': { p: 0, act: 'left' },
+    'btn-p1-d': { p: 0, act: 'right' },
+    'btn-p1-b': { p: 0, act: 'bomb' },
+    'btn-p1-v': { p: 0, act: 'skip' },
+    'btn-p2-up': { p: 1, act: 'up' },
+    'btn-p2-down': { p: 1, act: 'down' },
+    'btn-p2-left': { p: 1, act: 'left' },
+    'btn-p2-right': { p: 1, act: 'right' },
+    'btn-p2-enter': { p: 1, act: 'bomb' },
+    'btn-p2-shift': { p: 1, act: 'skip' }
+};
+
+Object.keys(btnMap).forEach(btnId => {
+    const btn = document.getElementById(btnId);
+    if (btn) {
+        // Handle click
+        btn.addEventListener('click', () => {
+            flashButton(btnId);
+            handleInput(btnMap[btnId].p, btnMap[btnId].act);
+        });
+        
+        // Handle touch for mobile
+        btn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // prevent double firing with click
+            flashButton(btnId);
+            handleInput(btnMap[btnId].p, btnMap[btnId].act);
+        });
+    }
+});
+
+startBtn.addEventListener('click', () => {
+    initGame();
+    // Auto-focus window to ensure keypresses work
+    window.focus();
+});
+restartBtn.addEventListener('click', () => {
+    initGame();
+    window.focus();
+});

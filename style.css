@@ -182,7 +182,9 @@ body {
     display: grid;
     grid-template-columns: repeat(9, var(--grid-size));
     grid-template-rows: repeat(9, var(--grid-size));
-    background-color: var(--board-bg);
+    background-image: url('assets/grass_tile.png');
+    background-size: var(--grid-size) var(--grid-size);
+    background-repeat: repeat;
     position: relative;
 }
 
@@ -206,25 +208,14 @@ body {
 }
 
 .solid-wall {
-    background-color: var(--solid-wall);
-    border-top: 4px solid var(--solid-wall-highlight);
-    border-left: 4px solid var(--solid-wall-highlight);
-    border-bottom: 4px solid var(--solid-wall-shadow);
-    border-right: 4px solid var(--solid-wall-shadow);
+    background-image: url('assets/stone_wall.png');
+    background-size: cover;
     z-index: 5;
 }
 
 .break-wall {
-    background-color: var(--break-wall);
-    border-top: 4px solid var(--break-wall-highlight);
-    border-left: 4px solid var(--break-wall-highlight);
-    border-bottom: 4px solid var(--break-wall-shadow);
-    border-right: 4px solid var(--break-wall-shadow);
-    /* Add some brick lines using linear gradient */
-    background-image: 
-        linear-gradient(rgba(0,0,0,0.2) 2px, transparent 2px),
-        linear-gradient(90deg, rgba(0,0,0,0.2) 2px, transparent 2px);
-    background-size: 50% 50%;
+    background-image: url('assets/wood_crate.png');
+    background-size: cover;
     z-index: 5;
 }
 
@@ -334,4 +325,54 @@ body {
 
 #game-over-modal.hidden {
     display: none;
+}
+
+/* Control Pad Styles */
+.control-pad {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    background: #111;
+    padding: 10px;
+    border: 2px solid #555;
+    border-radius: 5px;
+}
+
+.dpad {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.dpad-mid {
+    display: flex;
+    gap: 2px;
+}
+
+.action-btns {
+    display: flex;
+    gap: 5px;
+}
+
+.c-btn {
+    font-family: var(--font-main);
+    background-color: #333;
+    color: #fff;
+    border: 2px solid #666;
+    border-bottom: 4px solid #111;
+    padding: 10px;
+    font-size: 0.6rem;
+    cursor: pointer;
+    border-radius: 4px;
+    user-select: none;
+}
+
+.c-btn:active, .c-btn.active {
+    transform: translateY(2px);
+    border-bottom: 2px solid #111;
+    background-color: #555;
+    color: #f1c40f;
 }
