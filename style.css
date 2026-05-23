@@ -14,7 +14,7 @@
     --p4-color: #e9c46a;
     --p5-color: #9b5de5;
     --p6-color: #f4a261;
-    --grid-size: 50px;
+    --grid-size: 40px; /* Reduced from 50 to fit 15x15 grid */
     --font-main: 'Press Start 2P', cursive, monospace;
 }
 
@@ -245,8 +245,8 @@ body {
 
 #game-board {
     display: grid;
-    grid-template-columns: repeat(9, var(--grid-size));
-    grid-template-rows: repeat(9, var(--grid-size));
+    grid-template-columns: repeat(15, var(--grid-size));
+    grid-template-rows: repeat(15, var(--grid-size));
     background-image: url('assets/grass_tile.png');
     background-size: var(--grid-size) var(--grid-size);
     background-repeat: repeat;
