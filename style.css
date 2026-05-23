@@ -14,7 +14,7 @@
     --p4-color: #e9c46a;
     --p5-color: #9b5de5;
     --p6-color: #f4a261;
-    --grid-size: 40px; /* Reduced from 50 to fit 15x15 grid */
+    --grid-size: 50px;
     --font-main: 'Press Start 2P', cursive, monospace;
 }
 
@@ -24,6 +24,34 @@
     padding: 0;
 }
 
+#action-log {
+    margin: 0;
+}
+
+#terminal-status-wrapper {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px auto;
+    width: 100%;
+    max-width: 900px;
+    box-sizing: border-box;
+    font-family: 'Consolas', 'Courier New', monospace; /* Exact monospace match */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    text-align: left;
+    overflow-x: auto;
+}
+
+#terminal-status {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    color: #f39c12; /* Terminal orange text for accents */
+}
+
+/* Modals */
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
@@ -245,8 +273,8 @@ body {
 
 #game-board {
     display: grid;
-    grid-template-columns: repeat(15, var(--grid-size));
-    grid-template-rows: repeat(15, var(--grid-size));
+    grid-template-columns: repeat(9, var(--grid-size));
+    grid-template-rows: repeat(9, var(--grid-size));
     background-image: url('assets/grass_tile.png');
     background-size: var(--grid-size) var(--grid-size);
     background-repeat: repeat;

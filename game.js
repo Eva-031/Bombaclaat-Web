@@ -1,6 +1,6 @@
 // Game Constants and Configurations
-const WIDTH = 15;
-const HEIGHT = 15;
+const WIDTH = 9;
+const HEIGHT = 9;
 const CELL_SIZE = 50; // px
 const BOMB_LIFESPAN = 2; // turns
 
@@ -121,11 +121,11 @@ function initGame() {
                 // Protect spawn areas for up to 6 players
                 const safeZones = [
                     [0,0], [1,0], [0,1], [1,1], // top left
-                    [14,14], [13,14], [14,13], [13,13], // bottom right
-                    [0,14], [1,14], [0,13], [1,13], // bottom left
-                    [14,0], [13,0], [14,1], [13,1], // top right
-                    [7,0], [6,0], [8,0], [7,1], // top mid
-                    [7,14], [6,14], [8,14], [7,13]  // bottom mid
+                    [8,8], [7,8], [8,7], [7,7], // bottom right
+                    [0,8], [1,8], [0,7], [1,7], // bottom left
+                    [8,0], [7,0], [8,1], [7,1], // top right
+                    [4,0], [3,0], [5,0], [4,1], // top mid
+                    [4,8], [3,8], [5,8], [4,7]  // bottom mid
                 ];
                 let isSafe = false;
                 safeZones.forEach(coord => {
@@ -141,11 +141,11 @@ function initGame() {
     // Initialize Players
     const allPossiblePlayers = [
         { id: 1, name: 'Player 1', x: 0, y: 0, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p1', sprite: availableChars[playerSelectedChars[0]] },
-        { id: 2, name: 'Player 2', x: 14, y: 14, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p2', sprite: availableChars[playerSelectedChars[1]] },
-        { id: 3, name: 'Player 3', x: 0, y: 14, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p3', sprite: availableChars[playerSelectedChars[2]] },
-        { id: 4, name: 'Player 4', x: 14, y: 0, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p4', sprite: availableChars[playerSelectedChars[3]] },
-        { id: 5, name: 'Player 5', x: 7, y: 0, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p5', sprite: availableChars[playerSelectedChars[4]] },
-        { id: 6, name: 'Player 6', x: 7, y: 14, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p6', sprite: availableChars[playerSelectedChars[5]] }
+        { id: 2, name: 'Player 2', x: 8, y: 8, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p2', sprite: availableChars[playerSelectedChars[1]] },
+        { id: 3, name: 'Player 3', x: 0, y: 8, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p3', sprite: availableChars[playerSelectedChars[2]] },
+        { id: 4, name: 'Player 4', x: 8, y: 0, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p4', sprite: availableChars[playerSelectedChars[3]] },
+        { id: 5, name: 'Player 5', x: 4, y: 0, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p5', sprite: availableChars[playerSelectedChars[4]] },
+        { id: 6, name: 'Player 6', x: 4, y: 8, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p6', sprite: availableChars[playerSelectedChars[5]] }
     ];
 
     players = allPossiblePlayers.slice(0, totalPlayers);
@@ -260,6 +260,29 @@ function updateUI() {
         } else {
             turnIndicator.classList.add('hidden');
         }
+    }
+
+    // Update Terminal Status
+    let terminalText = `[ PLAYER STATUS ]\n`;
+    players.forEach(p => {
+        let hpStr = p.hp.toString();
+        let fStr = (p.fireRange - 2).toString();
+        let bStr = (p.maxBombs - 1).toString();
+        let sStr = (p.maxAP - 2).toString();
+        let dynStr = (p.bombsActive < p.maxBombs) ? "Ready" : "Cooldown";
+        if (p.hp <= 0) {
+            hpStr = "0";
+            dynStr = "Dead";
+        }
+        terminalText += `[${p.id}] ${p.name.padEnd(10)}| HP: ${hpStr} | F(Fire): ${fStr} | B(Bomb): ${bStr} | S(Speed): ${sStr} | dynamites: ${dynStr}\n`;
+    });
+    terminalText += `================================================================================\n`;
+    let currentPlayer = players[currentPlayerIndex];
+    terminalText += `[${currentPlayer.id}] ${currentPlayer.name}'s Turn | Current AP: ${currentAP}`;
+    
+    const terminalEl = document.getElementById('terminal-status');
+    if(terminalEl) {
+        terminalEl.innerText = terminalText;
     }
 }
 
