@@ -234,8 +234,6 @@ function renderBoard() {
         
         // Render character sprite
         el.style.backgroundImage = `url('${p.sprite}')`;
-        el.style.backgroundSize = 'cover';
-        el.style.backgroundPosition = 'center';
         el.style.backgroundColor = 'transparent'; // Override default solid color
         el.style.border = `4px solid var(--${p.color}-color)`; // Keep the colored border to identify player
         el.style.borderRadius = '5px'; // slightly square for characters
