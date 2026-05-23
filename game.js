@@ -244,23 +244,7 @@ function renderBoard() {
 }
 
 function updateUI() {
-    for (let i = 0; i < totalPlayers; i++) {
-        let pIndex = i + 1; // 1-indexed for HTML IDs
-        document.getElementById(`p${pIndex}-hp`).innerText = `HP: ${'❤️'.repeat(players[i].hp)}${'🖤'.repeat(2 - players[i].hp)}`;
-        document.getElementById(`p${pIndex}-ap`).innerText = currentPlayerIndex === i ? currentAP : 0;
-        document.getElementById(`p${pIndex}-maxap`).innerText = players[i].maxAP;
-        document.getElementById(`p${pIndex}-fire`).innerText = players[i].fireRange;
-        document.getElementById(`p${pIndex}-bombs`).innerText = players[i].bombsActive;
-        document.getElementById(`p${pIndex}-maxbombs`).innerText = players[i].maxBombs;
-        document.getElementById(`p${pIndex}-speed`).innerText = players[i].maxAP;
-
-        const turnIndicator = document.getElementById(`p${pIndex}-turn-indicator`);
-        if (currentPlayerIndex === i) {
-            turnIndicator.classList.remove('hidden');
-        } else {
-            turnIndicator.classList.add('hidden');
-        }
-    }
+    // The individual player panels were removed; we only use the terminal now.
 
     // Update Terminal Status
     let terminalText = `[ PLAYER STATUS ]\n`;
