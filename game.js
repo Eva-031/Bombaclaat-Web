@@ -31,8 +31,12 @@ let bombPlacedThisTurn = false;
 let gameOver = false;
 
 // Character Selection
-const availableChars = ['assets/char1.png', 'assets/char2.png'];
-let playerSelectedChars = [0, 1, 0, 1, 0, 1]; // Indexes for up to 6 players
+const availableChars = [
+    'assets/char1.png', 'assets/char2.png',
+    'assets/char3.png', 'assets/char4.png',
+    'assets/char5.png', 'assets/char6.png'
+];
+let playerSelectedChars = [0, 1, 2, 3, 4, 5]; // Indexes for up to 6 players
 
 function updateCharSelectUI() {
     charSelectGrid.innerHTML = '';
