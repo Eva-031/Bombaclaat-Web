@@ -20,23 +20,25 @@ const displayCount = document.getElementById('player-count-display');
 const charSelectGrid = document.getElementById('char-select-grid');
 
 // Game State
-let totalPlayers = 2;
 let board = [];
 let players = [];
 let bombs = [];
 let items = [];
 let currentPlayerIndex = 0;
 let currentAP = 2;
+let totalPlayers = 2;
+let maxPlayers = 4;
+let minPlayers = 2;
 let bombPlacedThisTurn = false;
 let gameOver = false;
 
 // Character Selection
 const availableChars = [
-    'assets/char1.png', 'assets/char2.png',
+    'assets/char1.png', 
     'assets/char3.png', 'assets/char4.png',
     'assets/char5.png', 'assets/char6.png'
 ];
-let playerSelectedChars = [0, 1, 2, 3, 4, 5]; // Indexes for up to 6 players
+let playerSelectedChars = [0, 1, 2, 3]; // Indexes for up to 4 players
 
 function updateCharSelectUI() {
     charSelectGrid.innerHTML = '';
@@ -143,9 +145,7 @@ function initGame() {
         { id: 1, name: 'Player 1', x: 0, y: 0, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p1', sprite: availableChars[playerSelectedChars[0]] },
         { id: 2, name: 'Player 2', x: 8, y: 8, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p2', sprite: availableChars[playerSelectedChars[1]] },
         { id: 3, name: 'Player 3', x: 0, y: 8, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p3', sprite: availableChars[playerSelectedChars[2]] },
-        { id: 4, name: 'Player 4', x: 8, y: 0, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p4', sprite: availableChars[playerSelectedChars[3]] },
-        { id: 5, name: 'Player 5', x: 4, y: 0, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p5', sprite: availableChars[playerSelectedChars[4]] },
-        { id: 6, name: 'Player 6', x: 4, y: 8, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p6', sprite: availableChars[playerSelectedChars[5]] }
+        { id: 4, name: 'Player 4', x: 8, y: 0, hp: 2, maxAP: 2, fireRange: 2, maxBombs: 1, bombsActive: 0, color: 'p4', sprite: availableChars[playerSelectedChars[3]] }
     ];
 
     players = allPossiblePlayers.slice(0, totalPlayers);
