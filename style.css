@@ -301,9 +301,12 @@ body {
 }
 
 .solid-wall {
+    background-color: #555; /* Fallback grey color if image fails to load */
     background-image: url('assets/stone_wall_remove.png');
     background-size: cover;
     z-index: 5;
+    border: 2px solid #333;
+    border-radius: 4px;
 }
 
 .break-wall {
@@ -315,7 +318,7 @@ body {
 .player {
     z-index: 20;
     border-radius: 50%;
-    transform: scale(1.0); /* Back to 1.0 so it matches the tile size exactly without scaling down */
+    transform: scale(1.3); /* Make character bigger as requested */
     background-size: contain;
     background-position: center bottom; /* Align to bottom so they stand on the tile */
     background-repeat: no-repeat;

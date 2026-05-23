@@ -235,8 +235,8 @@ function renderBoard() {
         // Render character sprite
         el.style.backgroundImage = `url('${p.sprite}')`;
         el.style.backgroundColor = 'transparent'; // Override default solid color
-        el.style.border = `4px solid var(--${p.color}-color)`; // Keep the colored border to identify player
-        el.style.borderRadius = '5px'; // slightly square for characters
+        el.style.border = 'none'; // Removed the border so character looks natural
+        el.style.borderRadius = '0'; // removed border radius to avoid cropping
         el.style.boxShadow = 'none';
         
         boardElement.appendChild(el);
