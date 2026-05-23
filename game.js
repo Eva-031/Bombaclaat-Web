@@ -244,30 +244,45 @@ function renderBoard() {
 }
 
 function updateUI() {
-    // The individual player panels were removed; we only use the terminal now.
-
-    // Update Terminal Status
-    let terminalText = `[ PLAYER STATUS ]\n`;
-    players.forEach(p => {
-        let hpStr = p.hp.toString();
-        let fStr = (p.fireRange - 2).toString();
-        let bStr = (p.maxBombs - 1).toString();
-        let sStr = (p.maxAP - 2).toString();
-        let dynStr = (p.bombsActive < p.maxBombs) ? "Ready" : "Cooldown";
-        if (p.hp <= 0) {
-            hpStr = "0";
-            dynStr = "Dead";
-        }
-        terminalText += `[${p.id}] ${p.name.padEnd(10)}| HP: ${hpStr} | F(Fire): ${fStr} | B(Bomb): ${bStr} | S(Speed): ${sStr} | dynamites: ${dynStr}\n`;
-    });
-    terminalText += `================================================================================\n`;
-    let currentPlayer = players[currentPlayerIndex];
-    terminalText += `[${currentPlayer.id}] ${currentPlayer.name}'s Turn | Current AP: ${currentAP}`;
-    
-    const terminalEl = document.getElementById('terminal-status');
-    if(terminalEl) {
-        terminalEl.innerText = terminalText;
+    const turnBanner = document.getElementById('current-turn-display');
+    const currentPlayer = players[currentPlayerIndex];
+    if (turnBanner && currentPlayer) {
+        turnBanner.innerText = `[${currentPlayer.id}] ${currentPlayer.name}'s Turn (AP: ${currentAP})`;
     }
+
+    const cardsContainer = document.getElementById('player-cards-container');
+    if (!cardsContainer) return;
+    
+    cardsContainer.innerHTML = '';
+    
+    players.forEach((p, i) => {
+        const isActive = currentPlayerIndex === i;
+        const dynStatus = (p.bombsActive < p.maxBombs) ? 'READY' : 'COOLDOWN';
+        let dynColor = (p.bombsActive < p.maxBombs) ? '#2ecc71' : '#e74c3c';
+        if (p.hp <= 0) {
+            dynColor = '#555';
+        }
+        
+        const cardHTML = `
+            <div class="glass-panel player-card ${isActive ? 'active-turn' : ''}">
+                <div class="player-card-indicator" style="background-color: var(--${p.color}-color)"></div>
+                <div class="player-card-avatar" style="background-image: url('${p.sprite}')"></div>
+                <div class="player-card-info">
+                    <h3 class="player-card-name" style="color: var(--${p.color}-color)">${p.name}</h3>
+                    <div class="player-card-stats">
+                        <div class="stat-badge" title="Health"><span>❤️</span> ${p.hp > 0 ? p.hp : 'DEAD'}</div>
+                        <div class="stat-badge" title="Fire Range"><span>🧨</span> ${p.fireRange}</div>
+                        <div class="stat-badge" title="Bombs"><span>💣</span> ${p.bombsActive}/${p.maxBombs}</div>
+                        <div class="stat-badge" title="Speed/AP"><span>👟</span> ${p.maxAP}</div>
+                    </div>
+                </div>
+                <div class="stat-badge" style="color: ${dynColor}; font-size: 0.7rem; margin-right: 5px; min-width: 90px; justify-content: center;">
+                    DYN:<br>${p.hp > 0 ? dynStatus : 'DEAD'}
+                </div>
+            </div>
+        `;
+        cardsContainer.innerHTML += cardHTML;
+    });
 }
 
 // Logic functions

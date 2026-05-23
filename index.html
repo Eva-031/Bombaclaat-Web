@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bombaclaat: Tactical Board Game</title>
     <!-- Pixel Font from Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -152,10 +152,15 @@
                 </div>
             </div>
 
-            <!-- Right Panels: Terminal Status -->
+            <!-- Right Panels: Premium Status Dashboard -->
             <div class="side-panels" id="right-panels" style="flex: 0 1 auto; max-width: 550px;">
-                <div id="terminal-status-wrapper" style="margin: 0; height: auto;">
-                    <pre id="terminal-status"></pre>
+                <div id="status-dashboard">
+                    <div id="turn-banner" class="glass-panel">
+                        <h2 id="current-turn-display">Player 1's Turn (AP: 2)</h2>
+                    </div>
+                    <div id="player-cards-container">
+                        <!-- JS will inject player cards here -->
+                    </div>
                 </div>
             </div>
         </div>
