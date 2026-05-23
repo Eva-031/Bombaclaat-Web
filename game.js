@@ -1,7 +1,7 @@
 // Game Constants and Configurations
 const WIDTH = 9;
 const HEIGHT = 9;
-const CELL_SIZE = 50; // px
+const CELL_SIZE = 75; // px - Increased to make map fill the space
 const BOMB_LIFESPAN = 2; // turns
 
 // DOM Elements
