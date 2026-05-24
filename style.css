@@ -445,13 +445,14 @@ body {
 .bomb::before {
     content: "";
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 2px; left: 2px; right: 2px; bottom: 2px;
     background-image: url('assets/pixel_bomb.png');
     background-size: cover;
     background-position: center;
-    mix-blend-mode: multiply;
-    transform: scale(1.1); /* Scale up the image slightly */
+    border-radius: 50%;
+    transform: scale(1.15); 
     z-index: -1;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.5), 0 5px 15px rgba(0,0,0,0.8);
 }
 
 .bomb::after {
