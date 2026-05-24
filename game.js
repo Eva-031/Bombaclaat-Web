@@ -326,6 +326,10 @@ function triggerExplosions() {
         }
     });
 
+    if (explodingThisFrame.length > 0 && typeof SoundFX !== 'undefined') {
+        SoundFX.explode();
+    }
+
     while (explodingThisFrame.length > 0) {
         let b = explodingThisFrame.pop();
         b.exploded = true;
@@ -450,6 +454,9 @@ function movePlayer(dx, dy) {
             if (item.buff === 'bomb') { p.maxBombs++; logAction(`${p.name} picked up Bomb Up!`); }
             if (item.buff === 'speed') { p.maxAP++; logAction(`${p.name} picked up Speed Up!`); }
             items.splice(itemIndex, 1);
+            if(typeof SoundFX !== 'undefined') SoundFX.powerup();
+        } else {
+            if(typeof SoundFX !== 'undefined') SoundFX.move();
         }
 
         updateUI();
@@ -459,6 +466,7 @@ function movePlayer(dx, dy) {
             endTurn();
         }
     } else {
+        if(typeof SoundFX !== 'undefined') SoundFX.error();
         logAction("Path blocked!");
     }
 }
@@ -469,18 +477,21 @@ function placeBomb() {
     
     // Check if already placed a bomb this turn
     if (bombPlacedThisTurn) {
+        if(typeof SoundFX !== 'undefined') SoundFX.error();
         logAction("You can only place ONE bomb per turn!");
         return;
     }
 
     // Check if reached max bombs
     if (p.bombsActive >= p.maxBombs) {
+        if(typeof SoundFX !== 'undefined') SoundFX.error();
         logAction("Max bombs reached!");
         return;
     }
 
     // Check if there's already a bomb here
     if (bombs.find(b => b.x === p.x && b.y === p.y)) {
+        if(typeof SoundFX !== 'undefined') SoundFX.error();
         logAction("There is already a bomb here!");
         return;
     }
@@ -496,6 +507,7 @@ function placeBomb() {
 
     p.bombsActive++;
     bombPlacedThisTurn = true;
+    if(typeof SoundFX !== 'undefined') SoundFX.dropBomb();
     logAction(`${p.name} placed a bomb!`);
     
     updateUI();
