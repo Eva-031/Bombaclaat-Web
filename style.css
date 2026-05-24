@@ -434,17 +434,28 @@ body {
 }
 
 .bomb {
-    background-color: #222;
-    border-radius: 50%;
-    transform: scale(0.7);
-    border: 2px solid #555;
     z-index: 15;
     animation: pulse 0.5s infinite alternate;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+}
+
+.bomb::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url('assets/pixel_bomb.png');
+    background-size: cover;
+    background-position: center;
+    mix-blend-mode: multiply;
+    transform: scale(1.1); /* Scale up the image slightly */
+    z-index: -1;
 }
 
 .bomb::after {
-    content: "💣";
-    font-size: 1.2rem;
+    content: ""; /* Remove emoji */
 }
 
 .bomb-text {
