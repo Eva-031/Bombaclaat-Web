@@ -146,6 +146,10 @@
 /* Modals */
 body {
     background-color: var(--bg-color);
+    background-image: url('assets/dungeon_bg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     color: var(--text-color);
     font-family: var(--font-main);
     display: flex;
@@ -368,7 +372,7 @@ body {
     grid-template-rows: repeat(9, var(--grid-size));
     width: calc(9 * var(--grid-size));
     height: calc(9 * var(--grid-size));
-    background-image: url('assets/grass_tile.png');
+    background-image: url('assets/dungeon_floor.png');
     background-size: var(--grid-size) var(--grid-size);
     background-repeat: repeat;
     position: relative;
