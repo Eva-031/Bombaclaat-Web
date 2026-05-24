@@ -1,30 +1,17 @@
-import sys
-from PIL import Image
+from PIL import Image, ImageDraw
 
-def remove_background(image_path, output_path, tolerance=10):
-    try:
-        img = Image.open(image_path).convert("RGBA")
-        data = img.getdata()
-        
-        # Get the background color from the top-left pixel (0, 0)
-        bg_color = data[0]
-        
-        new_data = []
-        for item in data:
-            # Check if the pixel is within the tolerance range of the background color
-            if (abs(item[0] - bg_color[0]) <= tolerance and
-                abs(item[1] - bg_color[1]) <= tolerance and
-                abs(item[2] - bg_color[2]) <= tolerance):
-                new_data.append((255, 255, 255, 0)) # Make transparent
-            else:
-                new_data.append(item)
-                
-        img.putdata(new_data)
-        img.save(output_path, "PNG")
-        print(f"Removed background from {image_path} and saved to {output_path}")
-    except Exception as e:
-        print(f"Error processing {image_path}: {e}")
+def remove_bg():
+    img = Image.open("assets/pixel_bomb.png").convert("RGBA")
+    
+    # Flood fill from the 4 corners to replace the white background with transparency
+    # thresh=30 handles slight variations in the white background
+    ImageDraw.floodfill(img, xy=(0, 0), value=(0, 0, 0, 0), thresh=30)
+    ImageDraw.floodfill(img, xy=(img.width-1, 0), value=(0, 0, 0, 0), thresh=30)
+    ImageDraw.floodfill(img, xy=(0, img.height-1), value=(0, 0, 0, 0), thresh=30)
+    ImageDraw.floodfill(img, xy=(img.width-1, img.height-1), value=(0, 0, 0, 0), thresh=30)
+    
+    img.save("assets/pixel_bomb_transparent.png")
+    print("Background removed successfully.")
 
-remove_background("assets/char1_raw.png", "assets/char1.png", tolerance=20)
-remove_background("assets/char2_raw.png", "assets/char2.png", tolerance=20)
-remove_background("assets/stone_wall remove.png", "assets/stone_wall.png", tolerance=20)
+if __name__ == "__main__":
+    remove_bg()
