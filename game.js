@@ -525,33 +525,33 @@ function flashButton(btnId) {
 // Keyboard Mapping
 const keyMap = {
     // P1
-    'w': { p: 0, act: 'up', btn: 'btn-p1-w' },
-    's': { p: 0, act: 'down', btn: 'btn-p1-s' },
-    'a': { p: 0, act: 'left', btn: 'btn-p1-a' },
-    'd': { p: 0, act: 'right', btn: 'btn-p1-d' },
-    'b': { p: 0, act: 'bomb', btn: 'btn-p1-b' },
-    'v': { p: 0, act: 'skip', btn: 'btn-p1-v' },
+    'w': { p: 0, act: 'up', btn: 'btn-p1-w' }, 'KeyW': { p: 0, act: 'up', btn: 'btn-p1-w' },
+    's': { p: 0, act: 'down', btn: 'btn-p1-s' }, 'KeyS': { p: 0, act: 'down', btn: 'btn-p1-s' },
+    'a': { p: 0, act: 'left', btn: 'btn-p1-a' }, 'KeyA': { p: 0, act: 'left', btn: 'btn-p1-a' },
+    'd': { p: 0, act: 'right', btn: 'btn-p1-d' }, 'KeyD': { p: 0, act: 'right', btn: 'btn-p1-d' },
+    'b': { p: 0, act: 'bomb', btn: 'btn-p1-b' }, 'KeyB': { p: 0, act: 'bomb', btn: 'btn-p1-b' },
+    'v': { p: 0, act: 'skip', btn: 'btn-p1-v' }, 'KeyV': { p: 0, act: 'skip', btn: 'btn-p1-v' },
     // P2
     'ArrowUp': { p: 1, act: 'up', btn: 'btn-p2-up' },
     'ArrowDown': { p: 1, act: 'down', btn: 'btn-p2-down' },
     'ArrowLeft': { p: 1, act: 'left', btn: 'btn-p2-left' },
     'ArrowRight': { p: 1, act: 'right', btn: 'btn-p2-right' },
     'Enter': { p: 1, act: 'bomb', btn: 'btn-p2-enter' },
-    'Shift': { p: 1, act: 'skip', btn: 'btn-p2-shift' },
+    'ShiftRight': { p: 1, act: 'skip', btn: 'btn-p2-shift' }, 'ShiftLeft': { p: 1, act: 'skip', btn: 'btn-p2-shift' }, 'Shift': { p: 1, act: 'skip', btn: 'btn-p2-shift' },
     // P3
-    'i': { p: 2, act: 'up', btn: 'btn-p3-up' },
-    'k': { p: 2, act: 'down', btn: 'btn-p3-down' },
-    'j': { p: 2, act: 'left', btn: 'btn-p3-left' },
-    'l': { p: 2, act: 'right', btn: 'btn-p3-right' },
-    'm': { p: 2, act: 'bomb', btn: 'btn-p3-bomb' },
-    'n': { p: 2, act: 'skip', btn: 'btn-p3-skip' },
+    'i': { p: 2, act: 'up', btn: 'btn-p3-up' }, 'KeyI': { p: 2, act: 'up', btn: 'btn-p3-up' },
+    'k': { p: 2, act: 'down', btn: 'btn-p3-down' }, 'KeyK': { p: 2, act: 'down', btn: 'btn-p3-down' },
+    'j': { p: 2, act: 'left', btn: 'btn-p3-left' }, 'KeyJ': { p: 2, act: 'left', btn: 'btn-p3-left' },
+    'l': { p: 2, act: 'right', btn: 'btn-p3-right' }, 'KeyL': { p: 2, act: 'right', btn: 'btn-p3-right' },
+    'm': { p: 2, act: 'bomb', btn: 'btn-p3-bomb' }, 'KeyM': { p: 2, act: 'bomb', btn: 'btn-p3-bomb' },
+    'n': { p: 2, act: 'skip', btn: 'btn-p3-skip' }, 'KeyN': { p: 2, act: 'skip', btn: 'btn-p3-skip' },
     // P4
-    't': { p: 3, act: 'up', btn: 'btn-p4-up' },
-    'g': { p: 3, act: 'down', btn: 'btn-p4-down' },
-    'f': { p: 3, act: 'left', btn: 'btn-p4-left' },
-    'h': { p: 3, act: 'right', btn: 'btn-p4-right' },
-    'y': { p: 3, act: 'bomb', btn: 'btn-p4-bomb' },
-    'u': { p: 3, act: 'skip', btn: 'btn-p4-skip' }
+    't': { p: 3, act: 'up', btn: 'btn-p4-up' }, 'KeyT': { p: 3, act: 'up', btn: 'btn-p4-up' },
+    'g': { p: 3, act: 'down', btn: 'btn-p4-down' }, 'KeyG': { p: 3, act: 'down', btn: 'btn-p4-down' },
+    'f': { p: 3, act: 'left', btn: 'btn-p4-left' }, 'KeyF': { p: 3, act: 'left', btn: 'btn-p4-left' },
+    'h': { p: 3, act: 'right', btn: 'btn-p4-right' }, 'KeyH': { p: 3, act: 'right', btn: 'btn-p4-right' },
+    'y': { p: 3, act: 'bomb', btn: 'btn-p4-bomb' }, 'KeyY': { p: 3, act: 'bomb', btn: 'btn-p4-bomb' },
+    'u': { p: 3, act: 'skip', btn: 'btn-p4-skip' }, 'KeyU': { p: 3, act: 'skip', btn: 'btn-p4-skip' }
 };
 
 window.addEventListener('keydown', (e) => {
@@ -562,10 +562,12 @@ window.addEventListener('keydown', (e) => {
     }
 
     const key = e.key;
+    const code = e.code;
     const lowerKey = key.length === 1 ? key.toLowerCase() : key;
     
-    if (keyMap[lowerKey] || keyMap[key]) {
-        const mapping = keyMap[lowerKey] || keyMap[key];
+    // Check e.code FIRST to ignore keyboard language layout, fallback to e.key for safety
+    if (keyMap[code] || keyMap[lowerKey] || keyMap[key]) {
+        const mapping = keyMap[code] || keyMap[lowerKey] || keyMap[key];
         // Ensure player is active
         if (mapping.p < totalPlayers) {
             flashButton(mapping.btn);
